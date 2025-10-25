@@ -52,7 +52,7 @@ public class Way : MonoBehaviour
     {
         if (startNode == null || endNode == null)
         {
-            Debug.LogError("Trying to get not set opposite node ", gameObject);
+            Debug.LogError("Trying to get not set opposite node", gameObject);
             return null;
         }
 
@@ -62,7 +62,7 @@ public class Way : MonoBehaviour
         if (node == endNode)
             return startNode;
 
-        Debug.LogError("Trying to get opposite node by not valid node ", gameObject);
+        Debug.LogError("Trying to get opposite node by not valid node", gameObject);
         return null;
     }
 

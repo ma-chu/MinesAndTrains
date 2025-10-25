@@ -51,16 +51,6 @@ public class GameController : MonoBehaviour
         UnsubscribeFromTrainEvents();
     }
     
-    private void SpawnTrains()
-    {
-        for (var i = 0; i < trainsStartData.Length; i++)
-        {
-            var train = Instantiate(trainPrefab, Vector3.zero, Quaternion.identity).GetComponent<Train>();
-            train.Initialize(trainsStartData[i], i);
-            _trains[i] = train;
-        }
-    }
-    
     /// <summary>
     /// впоследствии должно замениться на парсинг элементов с карты или что-то еще
     /// </summary>
@@ -71,7 +61,17 @@ public class GameController : MonoBehaviour
         _nodes = FindObjectsOfType<Node>();
         _ways = FindObjectsOfType<Way>();
     }
-
+    
+    private void SpawnTrains()
+    {
+        for (var i = 0; i < trainsStartData.Length; i++)
+        {
+            var train = Instantiate(trainPrefab, Vector3.zero, Quaternion.identity).GetComponent<Train>();
+            train.Initialize(trainsStartData[i], i);
+            _trains[i] = train;
+        }
+    }
+    
     /// <summary>
     /// Graph is not saved, only TrainsRoutesTables
     /// </summary>
@@ -174,29 +174,6 @@ public class GameController : MonoBehaviour
         }
 
         return optimalRoute;
-    }
-    
-    private void SubscribeToTrainEvents()
-    {
-        foreach (var train in _trains)
-        {
-            train.BaseReached += (points) =>
-            {
-                _totalScore += points;
-                totalScoreTMP.text = $"{_totalScore}";
-                RunTrain(train);
-            };
-            train.RouteChanged += UpdateWaysColors;
-        }
-    }
-    
-    private void UnsubscribeFromTrainEvents()
-    {
-        foreach (var train in _trains)
-        {
-            train.BaseReached = null;
-            train.RouteChanged -= UpdateWaysColors;
-        }
     }
 
     private void StartRunTrains()
@@ -302,6 +279,29 @@ public class GameController : MonoBehaviour
                 route.Ways.Add(routeToAnyBaseReverse.Ways[j]);
 
             return route;
+        }
+    }
+    
+    private void SubscribeToTrainEvents()
+    {
+        foreach (var train in _trains)
+        {
+            train.BaseReached += (points) =>
+            {
+                _totalScore += points;
+                totalScoreTMP.text = $"{_totalScore}";
+                RunTrain(train);
+            };
+            train.RouteChanged += UpdateWaysColors;
+        }
+    }
+    
+    private void UnsubscribeFromTrainEvents()
+    {
+        foreach (var train in _trains)
+        {
+            train.BaseReached = null;
+            train.RouteChanged -= UpdateWaysColors;
         }
     }
     
