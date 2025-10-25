@@ -38,8 +38,8 @@ public class GameController : MonoBehaviour
     
     private void Awake()
     {
-        SpawnTrains();
         GetElements();
+        SpawnTrains();
         BuildTrainTables();
         CalculateOptimalRoutes();
         StartRunTrains();
@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Graph is not saved, only TrainsRoutesTable
+    /// Graph is not saved, only TrainsRoutesTables
     /// </summary>
     private void BuildTrainTables()
     {
