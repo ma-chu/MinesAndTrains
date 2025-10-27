@@ -13,8 +13,8 @@ public class Train : MonoBehaviour
     private int _currentNodeIndex;
     private Route _route;
     
-    public Action<float> BaseReached;
-    public Action RouteChanged;
+    public event Action<float> BaseReached;
+    public event Action RouteChanged;
 
     public Route OptimalMiningRoute;
     
