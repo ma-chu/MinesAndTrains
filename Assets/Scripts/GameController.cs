@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     private readonly Train[] _trains = new Train[TrainsCount];
     private readonly TrainRoutesTable[] _trainsRoutesTables = new TrainRoutesTable[TrainsCount];
     private readonly Route[] _optimalTrainRoutes = new Route[TrainsCount];
-    private readonly Action<float>[] _trainsBaseReachedActionHandlers = new Action<float>[TrainsCount];
+    private readonly Action<float>[] _trainsBaseReachedEventHandlers = new Action<float>[TrainsCount];
 
     private Base[] _bases;
     private Mine[] _mines;
@@ -288,13 +288,13 @@ public class GameController : MonoBehaviour
         for (var index = 0; index < _trains.Length; index++)
         {
             var train = _trains[index];
-            _trainsBaseReachedActionHandlers[index] = (points) =>
+            _trainsBaseReachedEventHandlers[index] = (points) =>
             {
                 _totalScore += points;
                 totalScoreTMP.text = $"{_totalScore}";
                 RunTrain(train);
             };
-            train.BaseReached += _trainsBaseReachedActionHandlers[index];
+            train.BaseReached += _trainsBaseReachedEventHandlers[index];
             train.RouteChanged += UpdateWaysColors;
         }
     }
@@ -304,7 +304,7 @@ public class GameController : MonoBehaviour
         for (var index = 0; index < _trains.Length; index++)
         {
             var train = _trains[index];
-            train.BaseReached -= _trainsBaseReachedActionHandlers[index];
+            train.BaseReached -= _trainsBaseReachedEventHandlers[index];
             train.RouteChanged -= UpdateWaysColors;
         }
     }
